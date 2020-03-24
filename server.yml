@@ -1,0 +1,43 @@
+- name: start the Server Playbook
+  hosts: all
+  become: yes
+  vars_files:
+     - vars/default.yml
+  vars_prompt:
+    - name: framework_option
+      prompt: "Which framework do you want to install (php/node/none)"  
+      default: "no"
+      private: no   
+    - name: database_option
+      prompt: "Which database system you want to install (mysql/mongodb/none)"
+      default: "none"
+      private: no 
+    - name: webserver_option
+      prompt: "Which web server system you want to install (apache/nginx/none)"
+      default: "apache" 
+    - name: redis_option
+      prompt: "Do you want to install redis (yes/no)"  
+      default: "no"
+      private: no   
+  roles: 
+     - System
+     - { role: apache, when: webserver_option == "apache" }
+     - { role: nginx, when: webserver_option == "nginx" }
+     - { role: php, when: framework_option == "php"}
+     - { role: node, when: framework_option == "node"}
+     - { role: MySQL, when: database_option == "mysql" }
+     - { role: MongoDB, when: database_option == "mongodb" }
+     - { role: redis, when: redis_option == "yes"}
+     - SSL
+     - Firewall
+  handlers:
+     - name: restart apache2
+       service: name=apache2 state=restarted 
+     - name: restart nginx
+       service: name=nginx state=restarted  
+     - name: restart mongodb
+       service: name=mongod state=restarted
+     - name: restart mysql
+       service: name=mysql state=restarted
+
+  

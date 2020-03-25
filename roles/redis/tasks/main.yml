@@ -1,0 +1,7 @@
+---
+        - name: Install redis
+          apt: 
+            name: redis-server
+            update_cache: yes 
+            force_apt_get: yes
+            state: present

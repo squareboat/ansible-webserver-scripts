@@ -1,0 +1,84 @@
+---
+        - vars_prompt:
+          name: vhost_option
+          prompt: "Do you want to enable apache virtual host. Choose from these options(php,node,none)"  
+          default: "no"
+          private: no     
+        -  name: Add apache ondrej latest repository
+           apt_repository: 
+             repo: 'ppa:ondrej/apache2'
+        -  name: Install Apache HTTP Server
+           apt:
+              name: apache2
+              state: present
+              update_cache: yes
+        -  name: Install apache2-dev dependencies
+           apt:
+              name: apache2-dev
+              state: present
+              update_cache: yes  
+        -  name: Install apache2 security apache2_module
+           apt:
+              name: libapache2-mod-security2
+              state: present
+
+        -  name: enable mod_rewrite
+           apache2_module: 
+            name: rewrite 
+            state: present 
+        -  name: enable mod_http2
+           apache2_module: 
+            name: http2 
+            state: present 
+        -  name: enable mod_proxy
+           apache2_module: 
+            name: proxy 
+            state: present     
+        -  name: enabled mod_proxy_http
+           apache2_module: 
+            name: proxy_http 
+            state: present   
+        -  name: enable mod_expires
+           apache2_module: 
+            name: expires 
+            state: present   
+              
+        - name: Turn off ServerSignatures 
+          blockinfile: 
+            path: /etc/apache2/apache2.conf
+            block: |
+              ServerSignature Off
+
+        - name: Set ServerTokens to prod 
+          blockinfile: 
+            path: /etc/apache2/apache2.conf
+            block: |
+              ServerTokens Prod
+              
+        
+        
+        - name: Create Apache's document root
+          file:
+            path: "/var/www/{{ http_host }}"
+            state: directory
+            owner: ubuntu
+            group: www-data
+
+        - name: Setup php VirtualHost
+          template:
+            src: "roles/apache/templates/apachephp.conf.j2"
+            dest: "/etc/apache2/sites-available/{{ http_conf }}"
+          when: vhost_option == "php"  
+
+        - name: Setup node Virtualhost  
+          template:
+            src: "roles/apache/templates/apachenode.conf.j2"
+            dest: "/etc/apache2/sites-available/{{ http_conf }}"
+          when: vhost_option == "node"
+
+
+        - name: Enabling new VirtualHost
+          shell: /usr/sbin/a2ensite {{ http_conf }}  
+        - name: Disable default Virtualhost
+          shell: /usr/sbin/a2dissite 000-default.conf
+          notify: restart apache2

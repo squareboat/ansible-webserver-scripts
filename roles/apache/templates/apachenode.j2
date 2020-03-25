@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+ServerName {{ http_host }}
+ServerAlias www.{{ http_host }}
+ProxyPreserveHost On
+ProxyPass / http://localhost:{{ service_port }}/
+ProxyPassReverse / http://localhost:{{ service_port }}/
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+RewriteEngine on
+</VirtualHost>

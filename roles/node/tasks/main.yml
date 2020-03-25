@@ -1,0 +1,13 @@
+---
+        - name: ADD NodeJs PPA repository
+          shell: curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh | sudo bash /home/ubuntu/nodesource_setup.sh
+        - name: Install NodeJs and npm
+          apt:
+           name: nodejs
+           state: present
+           update_cache: yes 
+           force_apt_get: yes
+        - name: Install pm2 (ADVANCED, PRODUCTION PROCESS MANAGER FOR NODE.JS)
+          npm:
+           name: pm2
+           global: yes      

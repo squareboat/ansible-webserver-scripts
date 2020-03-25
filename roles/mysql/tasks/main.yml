@@ -1,0 +1,10 @@
+---
+        - name: Install MySQL
+          apt: 
+            name: "{{ item }}"
+            update_cache: yes 
+            force_apt_get: yes
+            state: present
+          with_items:
+              - 'mysql-server'
+              - 'mysql-client'

@@ -1,0 +1,7 @@
+---
+        - name: Install supervisor
+          apt: 
+            name: supervisor
+            update_cache: yes 
+            force_apt_get: yes
+            state: present

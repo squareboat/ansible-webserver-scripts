@@ -1,0 +1,6 @@
+---
+http_host: "web.example.com"
+http_conf: "web.example.com.conf"
+http_port: "80"
+service_port: "3000"
+disable_default: true

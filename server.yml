@@ -16,20 +16,25 @@
       prompt: "Which web server system you want to install (apache/nginx/none)"
       default: "apache" 
     - name: redis_option
-      prompt: "Do you want to install redis (yes/no)"  
-      default: "no"
+      prompt: "Do you want to install redis (y/n)"  
+      default: "n"
       private: no   
+    - name: supervisor_option
+      prompt: "Do you want to install supervisor (y/n)"
+      default: "n"
+      private: no
   roles: 
-     - System
+     - system
      - { role: apache, when: webserver_option == "apache" }
      - { role: nginx, when: webserver_option == "nginx" }
      - { role: php, when: framework_option == "php"}
      - { role: node, when: framework_option == "node"}
-     - { role: MySQL, when: database_option == "mysql" }
-     - { role: MongoDB, when: database_option == "mongodb" }
-     - { role: redis, when: redis_option == "yes"}
-     - SSL
-     - Firewall
+     - { role: mysql, when: database_option == "mysql" }
+     - { role: mongodb, when: database_option == "mongodb" }
+     - { role: redis, when: redis_option == "y"}
+     - { role: supervisor, when: supervisor_option == "y"}
+     - ssl
+     - firewall
   handlers:
      - name: restart apache2
        service: name=apache2 state=restarted 
@@ -39,5 +44,10 @@
        service: name=mongod state=restarted
      - name: restart mysql
        service: name=mysql state=restarted
+     - name: restart fail2ban
+       service: name=fail2ban state=restarted
+     - name: restart sshd   
+       service: name=sshd state=restarted   
+               
 
   

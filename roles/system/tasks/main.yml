@@ -1,0 +1,58 @@
+--- 
+        - name: Create SSH-Key using ssh-keygen for ubuntu user
+          user:
+            name: ubuntu
+            generate_ssh_key: yes
+            ssh_key_bits: 4096
+            ssh_key_file: .ssh/id_rsa
+
+        - name: Set system timezone to Asia/Kolkata
+          timezone: 
+            name: Asia/Kolkata
+        - name: Install system packages through APT
+          apt: 
+            name: "{{ item }}"
+            update_cache: yes 
+            force_apt_get: yes
+            state: present
+          with_items:
+              - 'git'
+              - 'ufw'
+              - 'curl'
+              - 'zip'
+              - 'locales'
+              - 'apt-transport-https'
+              - 'software-properties-common'
+              - 'htop'
+              - 'build-essential'
+              - 'fail2ban'
+              - 'ncdu'
+              - 'ntp'
+        - name: Setup fail2ban
+          src: templates/fail2ban.j2
+          dest: /etc/fail2ban/jail.local
+          notify: restart fail2ban
+        - name: Ensure group "employee" exists
+          group:
+           name: employees
+           state: present
+        - name: Create read-only User
+          user:
+           name: squareboat
+           home: /home/squareboat/
+           shell: /bin/bash
+           group: employees
+           append: yes    
+           generate_ssh_key: yes
+           ssh_key_bits: 4096
+           ssh_key_file: .ssh/id_rsa
+        - name: Create SSH Banner
+          template:
+           src: templates/servermessage.j2
+           dest: /etc/issue.net
+        - name: Enable SSH Banner
+          replace: 
+           path: /etc/ssh/sshd_config
+           regex: '#Banner'
+           replace: 'Banner /etc/issue.net'
+           notify: restart sshd     

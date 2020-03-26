@@ -27,10 +27,11 @@
               - 'build-essential'
               - 'fail2ban'
               - 'ncdu'
-              - 'ntp'
+              - 'ntp'        
         - name: Setup fail2ban
-          src: templates/fail2ban.j2
-          dest: /etc/fail2ban/jail.local
+          template:
+           src: templates/fail2ban.j2
+           dest: /etc/fail2ban/jail.local
           notify: restart fail2ban
         - name: Ensure group "employee" exists
           group:
@@ -53,6 +54,6 @@
         - name: Enable SSH Banner
           replace: 
            path: /etc/ssh/sshd_config
-           regex: '#Banner'
+           regexp: '^\s*#Banner'
            replace: 'Banner /etc/issue.net'
-           notify: restart sshd     
+          notify: restart sshd     

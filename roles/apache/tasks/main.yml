@@ -1,9 +1,4 @@
----
-        - vars_prompt:
-          name: vhost_option
-          prompt: "Do you want to enable apache virtual host. Choose from these options(php,node,none)"  
-          default: "no"
-          private: no     
+---   
         -  name: Add apache ondrej latest repository
            apt_repository: 
              repo: 'ppa:ondrej/apache2'
@@ -66,15 +61,15 @@
 
         - name: Setup php VirtualHost
           template:
-            src: "roles/apache/templates/apachephp.conf.j2"
+            src: "roles/apache/templates/apachephp.j2"
             dest: "/etc/apache2/sites-available/{{ http_conf }}"
-          when: vhost_option == "php"  
+          when: framework_option == "php"  
 
         - name: Setup node Virtualhost  
           template:
-            src: "roles/apache/templates/apachenode.conf.j2"
+            src: "roles/apache/templates/apachenode.j2"
             dest: "/etc/apache2/sites-available/{{ http_conf }}"
-          when: vhost_option == "node"
+          when: framework_option == "node"
 
 
         - name: Enabling new VirtualHost

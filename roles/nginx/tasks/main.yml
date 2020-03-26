@@ -1,9 +1,4 @@
----
-    - vars_prompt:
-      name: vhost_option
-      prompt: "Do you want to enable nginx virtual host. Choose from these options(php,node,none)"  
-      default: "none"
-      private: no     
+---  
     - name: Install nginx
       apt: 
        name: nginx 
@@ -13,19 +8,19 @@
       template:
        src: "roles/nginx/templates/nginxphp.j2"
        dest: "/etc/nginx/sites-available/{{ http_conf }}"
-       when: vhost_option == "php"
+       when: framework_option == "php"
     - name: install fastcgi (for php-fpm nginx)
       apt: 
        name: php-fpm
        state: latest
        update_cache: yes
-      when: vhost_option == "php"     
+      when: framework_option == "php"     
 
     - name: Setup node Virtualhost  
       template:
        src: "roles/nginx/templates/nginxnode.j2"
        dest: "/etc/nginx/sites-available/{{ http_conf }}"
-       when: vhost_option == "node"
+       when: framework_option == "node"
 
 
     - name: create symlink

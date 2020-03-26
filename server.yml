@@ -6,7 +6,7 @@
   vars_prompt:
     - name: framework_option
       prompt: "Which framework do you want to install (php/node/none)"  
-      default: "no"
+      default: "none"
       private: no   
     - name: database_option
       prompt: "Which database system you want to install (mysql/mongodb/none)"
@@ -15,6 +15,7 @@
     - name: webserver_option
       prompt: "Which web server system you want to install (apache/nginx/none)"
       default: "apache" 
+      private: no
     - name: redis_option
       prompt: "Do you want to install redis (y/n)"  
       default: "n"
@@ -23,6 +24,10 @@
       prompt: "Do you want to install supervisor (y/n)"
       default: "n"
       private: no
+    - name: elasticsearch_option
+      prompt: "Do you want to install Elasticsearch (y/n)"
+      default: "n"
+      private: no  
   roles: 
      - system
      - { role: apache, when: webserver_option == "apache" }

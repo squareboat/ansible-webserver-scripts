@@ -50,10 +50,4 @@
         - name: Create SSH Banner
           template:
            src: templates/servermessage.j2
-           dest: /etc/issue.net
-        - name: Enable SSH Banner
-          replace: 
-           path: /etc/ssh/sshd_config
-           regexp: '^\s*#Banner'
-           replace: 'Banner /etc/issue.net'
-          notify: restart sshd     
+           dest: /etc/issue.net     

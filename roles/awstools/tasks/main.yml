@@ -1,0 +1,15 @@
+---
+        - name: Install Perl packages through APT
+          apt: 
+            name: "{{ item }}"
+            update_cache: yes 
+            force_apt_get: yes
+            state: present
+          with_items:
+              - 'libwww-perl'
+              - 'libdatetime-perl'
+              
+        - name: Install AWS Disk and Memory Reporting script
+          shell: cd /home/ubuntu/ && curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O && unzip CloudWatchMonitoringScripts-1.2.2.zip && rm CloudWatchMonitoringScripts-1.2.2.zip && cd aws-scripts-mon && cp awscreds.template awscreds.conf
+          debug:
+            msg: AWS scripts mon is installed , please add your AWS credentials to the awscreds.conf file later

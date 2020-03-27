@@ -1,7 +1,29 @@
 ---
-        - name: Install elasticsearch
+        - name: Install prerequisites for Elasticsearch 
           apt: 
+            name: gnupg2
+            update_cache: yes
+            force_apt_get: yes
+            state: present
+        - name: Install Java
+          apt:
+            name: openjdk-8-jre
+            state: present
+            update_cache: yes
+        - name: Add Elasticsearch apt key.
+          apt_key:
+            url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+            state: present
+
+        - name: Add Elasticsearch repository.
+          apt_repository:
+            repo: 'deb https://artifacts.elastic.co/packages/6.x/apt stable main'
+            state: present
+            update_cache: yes
+
+        - name: Install Elasticsearch from apt
+          apt:
             name: elasticsearch
-            update_cache: yes 
+            update_cache: yes
             force_apt_get: yes
             state: present

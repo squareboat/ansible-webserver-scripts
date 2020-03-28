@@ -42,6 +42,7 @@
      - { role: mongodb, when: database_option == "mongodb" }
      - { role: redis, when: redis_option == "y"}
      - { role: supervisor, when: supervisor_option == "y"}
+     - { role: elasticsearch, when: elasticsearch_option == "y"}
      - { role: awstools, when: awstools_option == "y" }
      - ssl
      - firewall

@@ -32,6 +32,10 @@
       prompt: "Do you want to install AWS EC2 related tools(eg. mon-tools,agents etc.)" 
       default: "n"
       private: no 
+    - name: seconduser_option
+      prompt: "Do you want to create a second user without read access ?"
+      default: "n"
+      private: no  
   roles: 
      - system
      - { role: apache, when: webserver_option == "apache" }

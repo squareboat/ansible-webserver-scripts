@@ -37,6 +37,7 @@
           group:
            name: employees
            state: present
+          when: seconduser_option == "y" 
         - name: Create read-only User
           user:
            name: squareboat
@@ -47,6 +48,7 @@
            generate_ssh_key: yes
            ssh_key_bits: 4096
            ssh_key_file: .ssh/id_rsa
+          when: seconduser_option == "y" 
         - name: Create SSH Banner
           template:
            src: templates/servermessage.j2

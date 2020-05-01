@@ -4,9 +4,19 @@
             repo: 'ppa:certbot/certbot'
         -  name: Install certbot
            apt:
-            name: "{{ item }}"
+            name: certbot
             update_cache: yes
-            state: present
-           with_items: 
-             - certbot
-             - python-certbot-apache
+            force_apt_get: yes
+            state: present 
+        -  name: Install Certbot apache plugin
+           apt:
+             name: python-certbot-apache
+             force_apt_get: yes
+             state: present
+           when: webserver_option == "apache"   
+        -  name: Install Certbot nginx plugin
+           apt:
+             name: python-certbot-nginx
+             force_apt_get: yes
+             state: present
+           when: webserver_option == "nginx"  

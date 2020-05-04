@@ -11,8 +11,10 @@
 
         - name: Enable slow query log on MySQL
           blockinfile:
+            backup: yes          
             path: /etc/mysql/my.cnf
             insertafter: EOF
+            marker: "## {mark} Added by ansible config"
             block: |
               [mysqld]
               slow_query_log = 1

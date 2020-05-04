@@ -8,3 +8,14 @@
           with_items:
               - 'mysql-server'
               - 'mysql-client'
+
+        - name: Enable slow query log on MySQL
+          blockinfile:
+            path: /etc/mysql/my.cnf
+            insertafter: EOF
+            block: |
+              [mysqld]
+              slow_query_log = 1
+              slow_query_log_file = /var/log/mysql/slow-queries.log
+              long_query_time = 1
+          notify: restart mysql

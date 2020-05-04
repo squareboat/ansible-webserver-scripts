@@ -35,7 +35,11 @@
     - name: seconduser_option
       prompt: "Do you want to create a second user without read access ?"
       default: "n"
-      private: no  
+      private: no
+    - name: ssl_option
+      prompt: "Do you want to install SSL certificates using LetsEncrypt and Certbot"    
+      default: "n"
+      private: no
   roles: 
      - system
      - { role: apache, when: webserver_option == "apache" }
@@ -48,7 +52,7 @@
      - { role: supervisor, when: supervisor_option == "y"}
      - { role: elasticsearch, when: elasticsearch_option == "y"}
      - { role: awstools, when: awstools_option == "y" }
-     - ssl
+     - { role: ssl, when: ssl_option == "y" }
      - firewall
   handlers:
      - name: restart apache2

@@ -14,4 +14,7 @@
         - name: Allow port 443 on ufw
           ufw:
             rule: allow
-            port: '443'     
+            port: '443'  
+        - name: Reload ufw
+          ufw:
+            state: reloaded

@@ -1,0 +1,8 @@
+---
+        - name: Install PostgreSQL
+          apt: 
+            name: postgresql
+            update_cache: yes 
+            force_apt_get: yes
+            state: present    
+ 

@@ -27,7 +27,10 @@
               - 'build-essential'
               - 'fail2ban'
               - 'ncdu'
-              - 'ntp'        
+              - 'ntp'
+              - 'openssl'
+              - 'libssl-dev'
+              - 'libssl-doc'        
         - name: Setup fail2ban
           template:
            src: templates/fail2ban.j2

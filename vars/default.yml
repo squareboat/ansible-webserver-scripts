@@ -4,5 +4,5 @@ http_conf: "web.example.com.conf"
 http_port: "80"
 service_port: "3000"
 disable_default: true
-default_node_version: "--lts"
+default_node_version: "latest"
 default_php_version: "7.2"

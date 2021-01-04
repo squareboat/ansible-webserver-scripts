@@ -30,7 +30,7 @@
               - 'ntp'
               - 'openssl'
               - 'libssl-dev'
-              - 'libssl-doc'        
+              - 'libssl-doc'       
         - name: Setup fail2ban
           template:
            src: templates/fail2ban.j2
@@ -51,8 +51,4 @@
            generate_ssh_key: yes
            ssh_key_bits: 4096
            ssh_key_file: .ssh/id_rsa
-          when: seconduser_option == "y" 
-        - name: Create SSH Banner
-          template:
-           src: templates/servermessage.j2
-           dest: /etc/issue.net     
+          when: seconduser_option == "y"
